@@ -43,7 +43,7 @@ if __name__ == "__main__":
     output_las_file = args.o
     dem_file = args.dem
 
-    start = time.clock()
+    start = time.perf_counter()
     print("Reading data...")
     # read point cloud
     inFile = laspy.read(input_las_file)
@@ -84,5 +84,5 @@ if __name__ == "__main__":
         shutil.rmtree(folder)
     except OSError:
         print("Failed to delete: " + folder)
-    end = time.clock()
+    end = time.perf_counter()
     print("Time: ", "%.3fs" % (end - start))

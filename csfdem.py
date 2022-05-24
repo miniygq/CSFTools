@@ -151,6 +151,7 @@ def sub_fun_dsm_dem(d_xyz, _classification, output_arr_dem, _output_dem_num, out
 if __name__ == "__main__":
     # parameter handling
     parse = argparse.ArgumentParser()
+ 
     parse.add_argument("-i", help="Input las file.", required=True)
     parse.add_argument("-o", help="Output image file name (envi).", required=True)
     parse.add_argument("-dsm", help="Output dsm image file name (envi).")
@@ -164,6 +165,7 @@ if __name__ == "__main__":
     parse.add_argument("-fill_num", help="How many points to fill around each point.", type=int, default=3)
     parse.add_argument("-seg_size", help="How many points for each core to run parallelly. ", type=int, default=500000)
     args = parse.parse_args()
+    
 
     input_las_file = args.i
     output_img_file = args.o
@@ -176,7 +178,7 @@ if __name__ == "__main__":
     if args.dsm is not None:
         has_dsm = True
 
-    start = time.clock()
+    start = time.perf_counter()
     print("Reading data...")
     # read point cloud
     inFile = laspy.read(input_las_file)
@@ -271,5 +273,5 @@ if __name__ == "__main__":
         except OSError:
             print("Failed to delete: " + folder)
 
-    end = time.clock()
+    end = time.perf_counter()
     print("Time: ", "%.3fs" % (end - start))

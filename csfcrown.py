@@ -1,5 +1,5 @@
 #coding: utf-8
-import gdal
+from osgeo import gdal
 import mahotas
 import math
 import numpy as np
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     import time
-    start = time.clock()
+    start = time.perf_counter()
 
     chm_hdr_path = args.i
     out_file = args.o
@@ -181,5 +181,5 @@ if __name__ == "__main__":
                 log("Failed to delete: " + folder)
     log("INFO: Total detected trees: ", total_tree_num)
     log("Done.")
-    end = time.clock()
+    end = time.perf_counter()
     log("Time: ", "%.3fs" % (end - start))

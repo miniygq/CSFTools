@@ -25,7 +25,10 @@ if __name__ == "__main__":
     input_las_file = args.i
     output_las_file = args.o
 
-    start = time.clock()
+
+    # python 3.9 不在使用此方法，perf_counter（）代替 clock（）
+    # start = time.clock()
+    start = time.perf_counter()
 
     csf = CSF.CSF()
     if args.cloth_resolution is not None:
@@ -46,16 +49,27 @@ if __name__ == "__main__":
     points = input_File.points
     out_File = laspy.LasData(input_File.header)
     if args.save_mode == "ground": # save ground part
-        ground_points = points[ground]
-        out_File.points = ground_points
-        classification = [2 for i in range(0, len(ground))]  # 2 for ground
+        classification = [1 for i in range(0, len(points))]  
+        # 2 for ground
+        for i in range(0, len(ground)):
+            classification[ground[i]] = 2
         out_File.classification = classification
+        out_File.points = points[out_File.classification  == 2]
 
     if args.save_mode == "non_ground":
-        non_ground_points = points[non_ground]
-        out_File.points = non_ground_points
-        classification = [1 for i in range(0, len(non_ground))]  # 1 for non-ground
+        # non_ground_points = points[non_ground]
+        # out_File.points = non_ground_points
+        # classification = [1 for i in range(0, len(non_ground))]  # 1 for non-ground
+        # out_File.classification = classification
+
+        # 1 for non_ground
+        classification = [1 for i in range(0, len(points))]  
+        for i in range(0, len(ground)):
+            classification[ground[i]] = 2
+        for i in range(0, len(non_ground)):
+            classification[non_ground[i]] = 1
         out_File.classification = classification
+        out_File.points = points[out_File.classification == 1]
 
     if args.save_mode == "all":
         out_File.points = points
@@ -68,6 +82,6 @@ if __name__ == "__main__":
 
     out_File.write(output_las_file)
 
-    end = time.clock()
+    end = time.perf_counter()
     print("Done.")
     print("Time: ", "%.3fs" % (end - start))

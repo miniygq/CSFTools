@@ -101,7 +101,7 @@ if __name__ == "__main__":
             import sys
             sys.exit(0)
 
-    start = time.clock()
+    start = time.perf_counter()
     print("Method:", method)
     print("Reading data...")
     # read point cloud
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     except OSError:
         print("Failed to delete: " + folder)
 
-    end = time.clock()
+    end = time.perf_counter()
     print("Time: ", "%.3fs" % (end - start))
 
 
