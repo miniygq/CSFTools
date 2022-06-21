@@ -25,8 +25,8 @@ class CSFtools:
         return  cmdstr
 
     def csfground(self, params):
-        cmdstr = self.parse_params(params)
-        os.system(self.command("csfground.py " + cmdstr))
+        # cmdstr = self.parse_params(params)
+        os.system(self.command("csfground.py " + params))
 
     def csfdem(self, params):
         cmdstr = self.parse_params(params)
